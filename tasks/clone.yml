@@ -1,0 +1,33 @@
+- name: Create project directory with write access for the technical user
+  become: yes
+  file:
+      path: "{{ project_dir }}"
+      state: directory
+      mode: u+rw,g+rw,o+r
+      owner: "{{ deploy_user|default('technical') }}"
+      group: "{{ deploy_group|default('technical') }}"
+
+- name: If repository already exists, then clear the origin
+  become: yes
+  become_user: "{{ deploy_user|default('technical') }}"
+  shell: "(cd {{ project_dir }} && git remote remove origin) || true"
+
+- name: If repository already exists, then add origin
+  become: yes
+  become_user: "{{ deploy_user|default('technical') }}"
+  shell: "(cd {{ project_dir }} && git remote add origin {{ git_deploy_url }}) || true"
+
+- name: Fetch the repository
+  become: yes
+  become_user: "{{ deploy_user|default('technical') }}"
+  git:
+      repo: "{{git_deploy_url}}"
+      dest: "{{ project_dir }}"
+      update: true
+      version: master
+      force: true
+
+- name: Reset origin to remove the password from remote server
+  become: yes
+  become_user: "{{ deploy_user|default('technical') }}"
+  shell: "cd {{ project_dir }} && git remote remove origin && git remote add origin {{git_regular_deploy_url}}"

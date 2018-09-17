@@ -1,0 +1,12 @@
+- name: "Set up .env for production server"
+  become: yes
+  become_user: "{{ deploy_user|default('technical') }}"
+  lineinfile:
+      path: "{{ project_dir }}/.env"
+      regexp: "{{ item.regexp }}"
+      line: "{{ item.line }}"
+  with_items: "{{ production_specific_env }}"
+      #- { line: 'PROTO=http', regexp: '^PROTO', title: 'env: HTTPS should be default' }
+      #- { line: "GIT_PASSWORD={{ git_password }}", regexp: '^GIT_PASSWORD', title: 'env: GIT read-only password' }
+      #- { line: "DOMAIN_SUFFIX=", regexp: '^DOMAIN_SUFFIX', title: 'env: Remove domain suffix' }
+  when: inventory_hostname != "localhost"

@@ -1,0 +1,11 @@
+[Unit]
+Description=IWA-AIT applications hosting
+
+[Service]
+User=root
+WorkingDirectory=/project
+ExecStart=/bin/bash -c 'make start'
+ExecStop=/bin/bash -c 'make stop'
+
+[Install]
+WantedBy=multi-user.target

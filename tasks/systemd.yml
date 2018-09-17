@@ -1,0 +1,12 @@
+- name: Copy systemd service
+  become: yes
+  template:
+      src: "systemd/project.service.j2"
+      dest: "/etc/systemd/system/project.service"
+      owner: root
+      group: root
+      mode: 0640
+
+- name: Enable at system startup
+  become: yes
+  systemd: state=restarted name=project daemon_reload=yes enabled=yes
