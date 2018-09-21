@@ -16,7 +16,7 @@ Preliminaries
 3. Your project need to have an `.env` file, or `.env-template` that will be copied into `.env`
 
 Environment
------------
+----------- 
 
 ```yamlex
 # user who deploys the application
