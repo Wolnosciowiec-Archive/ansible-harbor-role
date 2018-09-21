@@ -1,4 +1,3 @@
 - name: Execute pre-deployment tasks
   become: yes
-  become_user: "{{ deploy_user|default('technical') }}"
-  shell: "cd {{ project_dir }} && make deployment_pre -j3"
+  shell: "cd {{ project_dir }} && {{ make_executable }} deployment_pre"

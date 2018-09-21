@@ -1,0 +1,13 @@
+- name: Check if the .env file exists
+  stat:
+      path: "{{ project_dir }}/.env"
+  register: env_file
+
+- name: Recreate .env file from template .env-default if .env does not exist
+  become: yes
+  become_user: "{{ deploy_user|default('technical') }}"
+  when: env_file.stat.exists == False
+  copy:
+      src: "{{ project_dir }}/.env-default"
+      dest: "{{ project_dir }}/.env"
+      remote_src: yes

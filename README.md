@@ -24,6 +24,9 @@ deploy_user: tech.admin
 
 project_dir: /project
 
+# change it to sg. "sudo ./make.sh" if you have a root-executed entrypoint for given group of users
+make_executable: "make"
+
 # this origin will be set only during deployment time
 git_deploy_url: https://user:password@somehost/someuser/somerepo
 
