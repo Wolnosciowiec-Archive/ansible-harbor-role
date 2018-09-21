@@ -18,7 +18,7 @@ Preliminaries
 Environment
 ----------- 
 
-```yamlex
+```yamlex 
 # user who deploys the application
 deploy_user: tech.admin
 
