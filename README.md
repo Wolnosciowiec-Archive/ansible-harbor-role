@@ -21,6 +21,7 @@ Environment
 ```yamlex 
 # user who deploys the application
 deploy_user: tech.admin
+deploy_group: technical
 
 project_dir: /project
 
