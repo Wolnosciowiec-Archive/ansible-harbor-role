@@ -9,6 +9,7 @@ production_specific_env:
 deploy_user: tech.admin
 deploy_group: technical
 project_dir: /project
+systemd_service_name: "project"
 
 # change it to sg. "sudo ./make.sh" if you have a root-executed entrypoint for given group of users
 make_executable: "make"

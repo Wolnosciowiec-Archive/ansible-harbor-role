@@ -1,12 +1,16 @@
-- name: Copy systemd service
+- name: "Copy '{{ systemd_service_name }}' systemd service"
   become: yes
   template:
-      src: "systemd/project.service.j2"
-      dest: "/etc/systemd/system/project.service"
+      src: "systemd/{{ systemd_service_name }}.service.j2"
+      dest: "/etc/systemd/system/{{ systemd_service_name }}.service"
       owner: root
       group: root
       mode: 0640
 
-- name: Enable at system startup
+- name: "Enable '{{ systemd_service_name }}' at system startup"
   become: yes
-  systemd: state=restarted name=project daemon_reload=yes enabled=yes
+  systemd:
+      state: restarted
+      name: "{{ systemd_service_name }}"
+      daemon_reload: yes
+      enabled: yes
