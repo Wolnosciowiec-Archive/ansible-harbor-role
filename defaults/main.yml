@@ -1,10 +1,10 @@
-test_specific_env:
-    - { line: 'PROTO=http', regexp: '^PROTO', title: 'env: Test server does not have SSL support' }
-    - { line: "DOMAIN_SUFFIX=.localhost", regexp: '^DOMAIN_SUFFIX', title: 'env: Add domain suffix - .localhost' }
+test_specific_env: []
+    #- { line: 'PROTO=http', regexp: '^PROTO', title: 'env: Test server does not have SSL support' }
+    #- { line: "DOMAIN_SUFFIX=.localhost", regexp: '^DOMAIN_SUFFIX', title: 'env: Add domain suffix - .localhost' }
 
-production_specific_env:
-    - { line: 'PROTO=http', regexp: '^PROTO', title: 'env: HTTPS should be default' }
-    - { line: "DOMAIN_SUFFIX=", regexp: '^DOMAIN_SUFFIX', title: 'env: Remove domain suffix' }
+production_specific_env: []
+    #- { line: 'PROTO=http', regexp: '^PROTO', title: 'env: HTTPS should be default' }
+    #- { line: "DOMAIN_SUFFIX=", regexp: '^DOMAIN_SUFFIX', title: 'env: Remove domain suffix' }
 
 deploy_user: tech.admin
 deploy_group: technical
