@@ -10,7 +10,19 @@
 - name: "Enable '{{ systemd_service_name }}' at system startup"
   become: yes
   systemd:
-      state: restarted
+      state: started
       name: "{{ systemd_service_name }}"
       daemon_reload: yes
       enabled: yes
+
+- name: "Make a partial restart of services (only those that actually were changed)"
+  become: yes
+  become_user: "{{ deploy_user|default('technical') }}"
+  raw: "(cd {{ project_dir }}; make start  </dev/null >/dev/null 2>&1 &); sleep 1"
+  when: avoid_whole_environment_restart
+
+- name: "Restart {{ systemd_service_name }}"
+  become: yes
+  systemd:
+      state: restarted
+  when: not avoid_whole_environment_restart

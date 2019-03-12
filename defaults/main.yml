@@ -12,6 +12,9 @@ systemd_service_name: "project"
 # prefer .env-prod (if present) instead of .env-dist
 prefer_env_prod_over_dist: yes
 
+# prevents from restarting whole environment when deploying the project over and over again
+avoid_whole_environment_restart: yes
+
 # change it to sg. "sudo ./make.sh" if you have a root-executed entrypoint for given group of users
 make_executable: "make"
 

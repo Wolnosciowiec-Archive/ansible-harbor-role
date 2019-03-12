@@ -35,6 +35,9 @@ git_deploy_url: https://user:password@somehost/someuser/somerepo
 # without user and password, this form will stay on server
 git_regular_deploy_url: https://somehost/someuser/somerepo
 
+# prevents from restarting whole environment when deploying the project over and over again
+avoid_whole_environment_restart: yes
+
 # prefer .env-prod (if present in cloned git repository) instead of .env-dist
 prefer_env_prod_over_dist: yes
 
