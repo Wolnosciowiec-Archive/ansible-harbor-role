@@ -7,6 +7,7 @@ Automated deployment of Dockerized environment from GIT which includes:
 - production specific .env configuration
 - test server specific .env configuration (when: host equals localhost)
 - Makefile support to manage the project
+- Optionally: Encrypted .env-prod files in project repository, decrypted during deployment
 
 Preliminaries
 -------------
@@ -34,7 +35,10 @@ git_deploy_url: https://user:password@somehost/someuser/somerepo
 # without user and password, this form will stay on server
 git_regular_deploy_url: https://somehost/someuser/somerepo
 
-## .env support
+# prefer .env-prod (if present in cloned git repository) instead of .env-dist
+prefer_env_prod_over_dist: yes
+
+# .env support (also works with .env-prod)
 test_specific_env:
     - { line: "DOMAIN_SUFFIX=.localhost", regexp: '^DOMAIN_SUFFIX', title: 'env: Add domain suffix - .localhost' }
 
