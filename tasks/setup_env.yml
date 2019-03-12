@@ -1,3 +1,7 @@
+
+#
+# default scenario: copy from .env.dist into .env WHEN .env does not exist
+#
 - name: Check if the .env file exists
   stat:
       path: "{{ project_dir }}/.env"
@@ -11,3 +15,29 @@
       src: "{{ project_dir }}/.env-default"
       dest: "{{ project_dir }}/.env"
       remote_src: yes
+
+#
+# .env-prod support: If exists, and when is preferred, then will be selected and decrypted as .env file
+#
+- name: Check if the .env-prod exists, it may be used in first order instead of .env-default
+  stat:
+      path: "{{ project_dir }}/.env-prod"
+  register: env_file_prod
+
+- name: Fetch the .env-prod file to decrypt
+  become: yes
+  become_user: "{{ deploy_user|default('technical') }}"
+  when: env_file_prod.stat.exists == True and prefer_env_prod_over_dist == True
+  fetch:
+      src: "{{ project_dir }}/.env-prod"
+      dest: "/tmp/env-prod-{{ inventory_hostname }}"
+      flat: yes
+
+- name: Decrypt the .env-prod file into .env file
+  become: yes
+  become_user: "{{ deploy_user|default('technical') }}"
+  when: env_file_prod.stat.exists == True and prefer_env_prod_over_dist == True
+  copy:
+      src: "/tmp/env-prod-{{ inventory_hostname }}"
+      dest: "{{ project_dir }}/.env"
+      decrypt: yes

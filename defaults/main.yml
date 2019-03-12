@@ -11,6 +11,9 @@ deploy_group: technical
 project_dir: /project
 systemd_service_name: "project"
 
+# prefer .env-prod (if present) instead of .env-dist
+prefer_env_prod_over_dist: yes
+
 # change it to sg. "sudo ./make.sh" if you have a root-executed entrypoint for given group of users
 make_executable: "make"
 
