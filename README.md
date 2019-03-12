@@ -36,11 +36,9 @@ git_regular_deploy_url: https://somehost/someuser/somerepo
 
 ## .env support
 test_specific_env:
-    - { line: 'PROTO=http', regexp: '^PROTO', title: 'env: Test server does not have SSL support' }
     - { line: "DOMAIN_SUFFIX=.localhost", regexp: '^DOMAIN_SUFFIX', title: 'env: Add domain suffix - .localhost' }
 
 production_specific_env:
-    - { line: 'PROTO=http', regexp: '^PROTO', title: 'env: HTTPS should be default' }
     - { line: "DOMAIN_SUFFIX=", regexp: '^DOMAIN_SUFFIX', title: 'env: Remove domain suffix' }
 
 ```
