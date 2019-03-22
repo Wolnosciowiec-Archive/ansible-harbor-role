@@ -38,6 +38,14 @@ git_regular_deploy_url: https://somehost/someuser/somerepo
 # prevents from restarting whole environment when deploying the project over and over again
 avoid_whole_environment_restart: yes
 
+#
+# Recovery from backup, on first deployment you may want to restore whole environment from backup
+# or in case of a failure. Generally this flag should be set manually per-deployment.
+#
+# Only if you have setup a File Repository instance on external server for backups storage.
+#
+restore_from_backup_with_recovery_plan: no
+
 # prefer .env-prod (if present in cloned git repository) instead of .env-dist
 prefer_env_prod_over_dist: yes
 

@@ -10,5 +10,7 @@ galaxy_info:
     - access
     - sudo
     - multiple users
+    - docker
+    - "docker-compose"
 
 dependencies: []

@@ -1,3 +1,14 @@
+- stat:
+      path: "{{ project_dir }}/requirements.txt"
+  register: requirements_file
+
+- name: Install python packages (only if requirements.txt present in repository)
+  become: yes
+  pip:
+      requirements: "{{ project_dir }}/requirements.txt"
+  when: requirements_file.stat.isfile is defined and requirements_file.stat.isfile
+
 - name: Execute pre-deployment tasks
   become: yes
   shell: "cd {{ project_dir }} && {{ make_executable }} deployment_pre"
+  tags: docker_project.pre_deployment

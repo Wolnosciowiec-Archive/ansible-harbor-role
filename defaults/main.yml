@@ -18,6 +18,12 @@ avoid_whole_environment_restart: yes
 # change it to sg. "sudo ./make.sh" if you have a root-executed entrypoint for given group of users
 make_executable: "make"
 
+#
+# Recovery from backup, on first deployment you may want to restore whole environment from backup
+# or in case of a failure. Generally this flag should be set manually per-deployment.
+#
+restore_from_backup_with_recovery_plan: no
+
 # this origin will be set only during deployment time
 #git_deploy_url: https://user:password@somehost/someuser/somerepo
 
