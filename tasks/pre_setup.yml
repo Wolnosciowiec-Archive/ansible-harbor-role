@@ -1,4 +1,5 @@
-- stat:
+- become: yes
+  stat:
       path: "{{ project_dir }}/requirements.txt"
   register: requirements_file
 
@@ -6,9 +7,8 @@
   become: yes
   pip:
       requirements: "{{ project_dir }}/requirements.txt"
-  when: requirements_file.stat.isfile is defined and requirements_file.stat.isfile
+  when: requirements_file.stat.exists == True
 
 - name: Execute pre-deployment tasks
   become: yes
   shell: "cd {{ project_dir }} && {{ make_executable }} deployment_pre"
-  tags: docker_project.pre_deployment
