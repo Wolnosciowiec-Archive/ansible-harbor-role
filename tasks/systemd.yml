@@ -17,7 +17,6 @@
 
 - name: "Make a partial restart of services (only those that actually were changed)"
   become: yes
-  become_user: "{{ deploy_user|default('technical') }}"
   raw: "(cd {{ project_dir }}; make start  </dev/null >/dev/null 2>&1 &); sleep 1"
   when: avoid_whole_environment_restart
 
