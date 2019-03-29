@@ -41,3 +41,13 @@
       src: "/tmp/env-prod-{{ inventory_hostname }}"
       dest: "{{ project_dir }}/.env"
       decrypt: yes
+
+#
+# Security
+#
+- name: Make the .env file not readable by anyone execept the deploy user and root
+  file:
+      path: "{{ project_dir }}/.env"
+      owner: "{{ deploy_user|default('technical') }}"
+      group: "{{ deploy_group }}"
+      mode: "0600"
