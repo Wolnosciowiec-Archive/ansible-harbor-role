@@ -27,7 +27,7 @@
 - name: Fetch the .env-prod file to decrypt
   become: yes
   become_user: "{{ deploy_user|default('technical') }}"
-  when: env_file_prod.stat.exists == True and prefer_env_prod_over_dist == True
+  when: env_file_prod.stat.exists == True and prefer_env_prod_over_dist|bool == True
   fetch:
       src: "{{ project_dir }}/.env-prod"
       dest: "/tmp/env-prod-{{ inventory_hostname }}"
@@ -36,7 +36,7 @@
 - name: Decrypt the .env-prod file into .env file
   become: yes
   become_user: "{{ deploy_user|default('technical') }}"
-  when: env_file_prod.stat.exists == True and prefer_env_prod_over_dist == True
+  when: env_file_prod.stat.exists == True and prefer_env_prod_over_dist|bool == True
   copy:
       src: "/tmp/env-prod-{{ inventory_hostname }}"
       dest: "{{ project_dir }}/.env"

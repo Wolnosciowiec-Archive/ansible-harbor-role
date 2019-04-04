@@ -1,4 +1,4 @@
 - name: Restore services data from backup (File Repository with recovery from disaster feature) - only if restore_from_backup_with_recovery_plan=True
   become: yes
   shell: "cd {{ project_dir }} && {{ make_executable }} recover_from_backup"
-  when: restore_from_backup_with_recovery_plan == 'yes' or restore_from_backup_with_recovery_plan == True
+  when: restore_from_backup_with_recovery_plan|bool == True

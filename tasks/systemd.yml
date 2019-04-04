@@ -18,10 +18,11 @@
 - name: "Make a partial restart of services (only those that actually were changed)"
   become: yes
   raw: "cd {{ project_dir }}; make start DETACH=true"
-  when: avoid_whole_environment_restart
+  when: avoid_whole_environment_restart|bool == True
 
 - name: "Restart {{ systemd_service_name }}"
   become: yes
   systemd:
       state: restarted
-  when: not avoid_whole_environment_restart
+      name: "{{ systemd_service_name }}"
+  when: avoid_whole_environment_restart|bool == False
