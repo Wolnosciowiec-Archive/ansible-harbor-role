@@ -3,6 +3,8 @@
 # default scenario: copy from .env.dist into .env WHEN .env does not exist
 #
 - name: Check if the .env file exists
+  become: yes
+  become_user: "{{ deploy_user|default('technical') }}"
   stat:
       path: "{{ project_dir }}/.env"
   register: env_file
@@ -20,6 +22,8 @@
 # .env-prod support: If exists, and when is preferred, then will be selected and decrypted as .env file
 #
 - name: Check if the .env-prod exists, it may be used in first order instead of .env-default
+  become: yes
+  become_user: "{{ deploy_user|default('technical') }}"
   stat:
       path: "{{ project_dir }}/.env-prod"
   register: env_file_prod
