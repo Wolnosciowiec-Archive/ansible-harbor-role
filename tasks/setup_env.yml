@@ -46,6 +46,7 @@
 # Security
 #
 - name: Make the .env file not readable by anyone execept the deploy user and root
+  become: yes
   file:
       path: "{{ project_dir }}/.env"
       owner: "{{ deploy_user|default('technical') }}"
