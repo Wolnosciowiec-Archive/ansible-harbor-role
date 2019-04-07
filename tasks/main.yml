@@ -1,3 +1,4 @@
+- include: prepare_permissions.yml
 - include: clone.yml
 - include: setup_env.yml
 - include: test_server_specific.yml

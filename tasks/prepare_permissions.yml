@@ -1,0 +1,6 @@
+- name: Get group id of the deployment group
+  shell: "id -g {{deploy_group}}"
+  register: deploy_user_group_id_output
+
+- set_fact:
+    deploy_group_id: "{{ deploy_user_group_id_output.stdout }}"

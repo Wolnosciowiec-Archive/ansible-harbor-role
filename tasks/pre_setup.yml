@@ -11,4 +11,4 @@
 
 - name: Execute pre-deployment tasks
   become: yes
-  shell: "cd {{ project_dir }} && {{ make_executable }} deployment_pre"
+  shell: "cd {{ project_dir }} && {{ make_executable }} deployment_pre APP_USER={{deploy_user}} APP_GROUP_ID={{deploy_group_id}} HOME=/home/{{deploy_user}}"
