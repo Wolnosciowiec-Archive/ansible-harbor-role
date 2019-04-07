@@ -58,3 +58,24 @@ production_specific_env:
     - { line: "DOMAIN_SUFFIX=", regexp: '^DOMAIN_SUFFIX', title: 'env: Remove domain suffix' }
 
 ```
+
+Troubleshooting
+---------------
+
+1. Provisioning as user X, but running Riotkit's Harbor as user Y
+
+It may be very confusing to the Makefile, who exactly should run non-privileged commands.
+The solution is to skip user automatic detection, by hardcoding user and group id into the .env file
+
+```yamlex
+test_specific_env:
+    - { line: "DOMAIN_SUFFIX=.localhost", regexp: '^DOMAIN_SUFFIX', title: 'env: Add domain suffix - .localhost' }
+    - { line: "APP_USER=tech.admin", regexp: '^APP_USER', title: 'env: APP_USER' }
+    - { line: "APP_GROUP_ID=1800", regexp: '^APP_GROUP_ID', title: 'env: APP_GROUP_ID' }
+
+production_specific_env:
+    - { line: "DOMAIN_SUFFIX=", regexp: '^DOMAIN_SUFFIX', title: 'env: Remove domain suffix' }
+    - { line: "APP_USER=tech.admin", regexp: '^APP_USER', title: 'env: APP_USER' }
+    - { line: "APP_GROUP_ID=1800", regexp: '^APP_GROUP_ID', title: 'env: APP_GROUP_ID' }
+
+```
