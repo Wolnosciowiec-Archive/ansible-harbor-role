@@ -1,5 +1,5 @@
 - name: Get group id of the deployment group
-  shell: "id -g {{deploy_group}}"
+  shell: "getent group {{deploy_group}} | awk -F: '{printf \"%d\", $3}'"
   register: deploy_user_group_id_output
 
 - set_fact:
