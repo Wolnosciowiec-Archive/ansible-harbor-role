@@ -17,6 +17,8 @@
 
 - name: "Make a partial restart of services (only those that actually were changed)"
   become: yes
+  retries: 3
+  delay: 3
   raw: "cd {{ project_dir }}; make start DETACH=true"
   when: avoid_whole_environment_restart|bool == True
 
