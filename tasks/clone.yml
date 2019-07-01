@@ -7,15 +7,31 @@
       owner: "{{ deploy_user|default('technical') }}"
       group: "{{ deploy_group|default('technical') }}"
 
-- name: If repository already exists, then clear the origin
+- name: If repository already exists, and has origin then clear the origin
   become: yes
   become_user: "{{ deploy_user|default('technical') }}"
   shell: "(cd {{ project_dir }} && git remote remove origin) || true"
 
-- name: If repository already exists, then add origin
+- name: If repository already exists and has origin, then add origin
   become: yes
   become_user: "{{ deploy_user|default('technical') }}"
   shell: "(cd {{ project_dir }} && git remote add origin {{ git_deploy_url }}) || true"
+
+- name: Check presence of .git
+  become: yes
+  stat:
+      path: "{{ project_dir }}/.git"
+  register: dot_git
+
+- name: Correct .git permissions if necessary
+  become: yes
+  when: dot_git.stat.exists == True
+  file:
+      path: "{{ project_dir }}/.git"
+      owner: "{{ deploy_user|default('technical') }}"
+      group: "{{ deploy_group|default('technical') }}"
+      recurse: yes
+      state: directory
 
 - name: Fetch the repository
   become: yes
