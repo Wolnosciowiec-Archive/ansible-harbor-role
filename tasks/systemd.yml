@@ -1,3 +1,20 @@
+- name: systemd_service_sleep must be greather than zero
+  assert:
+    that:
+      - systemd_service_sleep > 0
+
+- name: compose_env_name cannot be empty
+  assert:
+    that:
+      - compose_env_name != ''
+
+- name: Copy until-compose-env-running script
+  become: yes
+  copy:
+      src: usr/local/bin/until-compose-env-running
+      dest: /usr/local/bin/until-compose-env-running
+      mode: "+x"
+
 - name: "Copy '{{ systemd_service_name }}' systemd service"
   become: yes
   template:

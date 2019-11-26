@@ -23,6 +23,8 @@ Environment
 # user who deploys the application
 deploy_user: tech.admin
 deploy_group: technical
+compose_env_name: "your-docker-compose-environment-name-there"
+systemd_service_sleep: 30
 
 project_dir: /project
 

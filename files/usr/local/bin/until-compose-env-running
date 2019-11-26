@@ -1,0 +1,20 @@
+#!/bin/bash
+
+ENV_NAME=$1
+TIME_TO_WAIT=${2:-30}
+
+is_compose_env_running () {
+    env_prefix=$1
+
+    if docker ps --filter name=$env_prefix | grep "$env_prefix" > /dev/null; then
+        return 0
+    fi
+
+    return 1
+}
+
+while is_compose_env_running "$ENV_NAME"; do
+    sleep "$TIME_TO_WAIT"
+done
+
+exit 1
