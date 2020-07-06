@@ -1,5 +1,31 @@
 #!/bin/bash
 
+#
+# Wait until all containers with given prefix are down
+# To control containers prefix in compose use -p switch eg. docker-compose -p ENV_NAME
+#
+# Usage: until-compose-env-running ENV_NAME 30
+#
+# Apache License 2.0
+#
+# Read full license text at: http://www.apache.org/licenses/LICENSE-2.0
+# Copyleft (c) 2020 RiotKit Tech Collective
+#
+# About RiotKit
+#
+# We are grassroot activists for social change, we respond to the needs of grassroot organizations,
+# check out those fantastic mutual aid initiatives:
+
+#   - International Workers Association (https://iwa-ait.org)
+#   - Anarchistyczne FAQ (http://anarchizm.info) a translation of Anarchist FAQ
+#     (https://theanarchistlibrary.org/library/the-anarchist-faq-editorial-collective-an-anarchist-faq)
+#   - Federacja Anarchistyczna (http://federacja-anarchistyczna.pl)
+#   - Związek Syndykalistów Polski (https://zsp.net.pl) (Polish section of IWA-AIT)
+#   - Komitet Obrony Praw Lokatorów (https://lokatorzy.info.pl)
+#   - Solidarity Federation (https://solfed.org.uk)
+#   - Priama Akcia (https://priamaakcia.sk)
+#
+
 ENV_NAME=$1
 TIME_TO_WAIT=${2:-30}
 

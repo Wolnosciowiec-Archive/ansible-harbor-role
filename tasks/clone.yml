@@ -33,6 +33,18 @@
       recurse: yes
       state: directory
 
+- name: Copy until-compose-env-running script
+  become: yes
+  copy:
+      src: usr/local/bin/add-known-host-by-git-url
+      dest: /usr/local/bin/add-known-host-by-git-url
+      mode: "+x"
+
+- name: Make sure the GIT host is known to local ssh client
+  become: yes
+  become_user: "{{ deploy_user|default('technical') }}"
+  shell: "add-known-host-by-git-url {{ git_deploy_url }}"
+
 - name: Fetch the repository
   become: yes
   become_user: "{{ deploy_user|default('technical') }}"

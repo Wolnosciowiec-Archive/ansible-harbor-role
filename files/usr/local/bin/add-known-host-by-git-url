@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+
+# Apache License 2.0
+#
+# Read full license text at: http://www.apache.org/licenses/LICENSE-2.0
+# Copyleft (c) 2020 RiotKit Tech Collective
+#
+# About RiotKit
+#
+# We are grassroot activists for social change, we respond to the needs of grassroot organizations,
+# check out those fantastic mutual aid initiatives:
+
+#   - International Workers Association (https://iwa-ait.org)
+#   - Anarchistyczne FAQ (http://anarchizm.info) a translation of Anarchist FAQ
+#     (https://theanarchistlibrary.org/library/the-anarchist-faq-editorial-collective-an-anarchist-faq)
+#   - Federacja Anarchistyczna (http://federacja-anarchistyczna.pl)
+#   - Związek Syndykalistów Polski (https://zsp.net.pl) (Polish section of IWA-AIT)
+#   - Komitet Obrony Praw Lokatorów (https://lokatorzy.info.pl)
+#   - Solidarity Federation (https://solfed.org.uk)
+#   - Priama Akcia (https://priamaakcia.sk)
+#
+
+import re
+import sys
+import os
+import subprocess
+from urllib.parse import urlparse
+
+
+def get_known_host(url: str):
+    if url.startswith('http'):
+        return urlparse(url).netloc
+    else:
+        match = re.findall('@([A-Za-z-0-9.-_]+):', url)
+        return match[0]
+
+
+def should_append_to_known_hosts(host: str):
+    path = os.path.expanduser('~/.ssh/known_hosts')
+
+    if not os.path.isfile(path):
+        return True
+
+    patterns = [
+        host + ',',
+        host + ']:',
+        host + ' '
+    ]
+
+    with open(path, 'rb') as f:
+        content = f.read().decode('utf-8')
+
+        for pattern in patterns:
+            if pattern in content:
+                return False
+
+    return True
+
+
+def main(url: str):
+    host = get_known_host(url)
+
+    if should_append_to_known_hosts(host):
+        try:
+            subprocess.check_call('ssh-keyscan -t rsa %s >> ~/.ssh/known_hosts' % host, shell=True)
+        except subprocess.CalledProcessError as e:
+            print(str(e))
+            sys.exit(1)
+
+
+if __name__ == '__main__':
+    main(sys.argv[1])
+    sys.exit(0)
