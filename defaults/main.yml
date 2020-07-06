@@ -10,6 +10,7 @@ project_dir: /project
 systemd_service_name: "project"
 systemd_service_sleep: 30
 compose_env_name: ""
+configure_sudoers: no
 
 # prefer .env-prod (if present) instead of .env-dist
 prefer_env_prod_over_dist: yes
