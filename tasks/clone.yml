@@ -40,17 +40,10 @@
       dest: /usr/local/bin/add-known-host-by-git-url
       mode: "+x"
 
-- name: Create sudoers.d directory
-  become: yes
-  file:
-      path: /etc/sudoers.d
-      state: directory
-  when: configure_sudoers is defined and configure_sudoers|bool
-
 - name: Configure sudo to keep SSH_AUTH_SOCK
   become: yes
   lineinfile:
-      dest: /etc/sudoers.d/ssh_key_forward
+      dest: /etc/sudoers
       line: 'Defaults env_keep+=SSH_AUTH_SOCK'
       create: yes
       owner: root
