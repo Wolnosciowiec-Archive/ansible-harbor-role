@@ -24,15 +24,25 @@ import re
 import sys
 import os
 import subprocess
+from typing import Tuple
 from urllib.parse import urlparse
 
 
-def get_known_host(url: str):
+def get_known_host(url: str) -> Tuple[str, int]:
     if url.startswith('http'):
-        return urlparse(url).netloc
+        parsed = urlparse(url)
+
+        return parsed.hostname, parsed.port
     else:
-        match = re.findall('@([A-Za-z-0-9.-_]+):', url)
-        return match[0]
+        match = re.findall('@([A-Za-z-0-9.\-_]+)(?:(:([0-9]+))?)', url)
+
+        if not match:
+            raise Exception('Cannot parse git remote "%s"' % url)
+
+        if len(match[0]) >= 3:
+            return match[0][0], int(match[0][2])
+
+        return match[0][0], 22
 
 
 def should_append_to_known_hosts(host: str):
@@ -58,11 +68,11 @@ def should_append_to_known_hosts(host: str):
 
 
 def main(url: str):
-    host = get_known_host(url)
+    host, port = get_known_host(url)
 
     if should_append_to_known_hosts(host):
         try:
-            subprocess.check_call('ssh-keyscan -t rsa %s >> ~/.ssh/known_hosts' % host, shell=True)
+            subprocess.check_call('ssh-keyscan -t rsa -p %i %s >> ~/.ssh/known_hosts' % (port, host), shell=True)
         except subprocess.CalledProcessError as e:
             print(str(e))
             sys.exit(1)

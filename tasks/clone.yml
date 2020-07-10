@@ -40,6 +40,9 @@
       dest: /usr/local/bin/add-known-host-by-git-url
       mode: "+x"
 
+#
+# SSH Agent support
+#
 - name: Configure sudo to keep SSH_AUTH_SOCK
   become: yes
   lineinfile:
@@ -52,6 +55,9 @@
       state: present
   when: configure_sudoers is defined and configure_sudoers|bool
 
+#
+# Add GIT server to known hosts
+#
 - name: Make sure the GIT host is known to local ssh client
   become: yes
   become_user: "{{ deploy_user|default('technical') }}"
