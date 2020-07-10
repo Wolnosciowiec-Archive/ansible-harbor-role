@@ -1,0 +1,3 @@
+- name: Bring up the environment and perform upgrade
+  become: yes
+  shell: "cd {{ project_dir }} && harbor :upgrade --profile=\"{{ harbor_deployment_profile }}\""

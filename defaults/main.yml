@@ -33,3 +33,6 @@ restore_from_backup_with_recovery_plan: no
 
 # without user and password, this form will stay on server
 #git_regular_deploy_url: https://somehost/someuser/somerepo
+
+# runtime variables
+harbor_deployment_profile: ""  # use with -e to set a profile eg. -e harbor_deployment_profile=gateway
