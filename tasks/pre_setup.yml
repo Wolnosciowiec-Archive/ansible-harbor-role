@@ -5,6 +5,7 @@
 
 - name: Install python packages (only if requirements.txt present in repository)
   become: yes
+  become_user: "{{ deploy_user|default('technical') }}"
   pip:
       requirements: "{{ project_dir }}/requirements.txt"
       virtualenv: "{{ project_dir }}/.venv"
