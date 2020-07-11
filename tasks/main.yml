@@ -4,6 +4,8 @@
 - include: test_server_specific.yml
 - include: production_specific.yml
 - include: pre_setup.yml
-- include: upgrade.yml
-- include: systemd.yml
-- include: backup.yml
+- block:
+      - include: upgrade.yml
+  always:
+      - include: systemd.yml
+      - include: backup.yml

@@ -25,27 +25,28 @@ import sys
 import os
 import subprocess
 from typing import Tuple
-from urllib.parse import urlparse
+from typing import Optional
 
 
-def get_known_host(url: str) -> Tuple[str, int]:
+def get_known_host(url: str) -> Tuple[Optional[str], Optional[int]]:
     if url.startswith('http'):
-        parsed = urlparse(url)
+        return None, None
 
-        return parsed.hostname, parsed.port
-    else:
-        match = re.findall('@([A-Za-z-0-9.\-_]+)(?:(:([0-9]+))?)', url)
+    match = re.findall('@([A-Za-z-0-9.\-_]+)(?:(:([0-9]+))?)', url)
 
-        if not match:
-            raise Exception('Cannot parse git remote "%s"' % url)
+    if not match:
+        raise Exception('Cannot parse git remote "%s"' % url)
 
-        if len(match[0]) >= 3:
-            return match[0][0], int(match[0][2])
+    if len(match[0]) >= 3:
+        return match[0][0], int(match[0][2])
 
-        return match[0][0], 22
+    return match[0][0], 22
 
 
-def should_append_to_known_hosts(host: str):
+def should_append_to_known_hosts(host: Optional[str], port: Optional[int]):
+    if host is None:
+        return False
+
     path = os.path.expanduser('~/.ssh/known_hosts')
 
     if not os.path.isfile(path):
@@ -53,9 +54,11 @@ def should_append_to_known_hosts(host: str):
 
     patterns = [
         host + ',',
-        host + ']:',
         host + ' '
     ]
+
+    if port != 22:
+        patterns = [host + ']:' + str(port)]
 
     with open(path, 'rb') as f:
         content = f.read().decode('utf-8')
@@ -70,7 +73,7 @@ def should_append_to_known_hosts(host: str):
 def main(url: str):
     host, port = get_known_host(url)
 
-    if should_append_to_known_hosts(host):
+    if should_append_to_known_hosts(host, port):
         try:
             subprocess.check_call('ssh-keyscan -t rsa -p %i %s >> ~/.ssh/known_hosts' % (port, host), shell=True)
         except subprocess.CalledProcessError as e:
