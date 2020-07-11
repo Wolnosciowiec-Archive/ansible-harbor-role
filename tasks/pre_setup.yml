@@ -1,3 +1,8 @@
+- name: Install required virtualenv package
+  become: yes
+  pip:
+      name: virtualenv
+
 - name: Install python packages (only if requirements.txt present in repository)
   become: yes
   pip:
