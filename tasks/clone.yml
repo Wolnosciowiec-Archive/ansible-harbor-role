@@ -70,7 +70,7 @@
       repo: "{{git_deploy_url}}"
       dest: "{{ project_dir }}"
       update: true
-      version: master
+      version: "{{ git_branch }}"
       force: true
 
 - name: Reset origin to remove the password from remote server

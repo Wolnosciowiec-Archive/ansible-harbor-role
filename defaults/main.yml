@@ -4,12 +4,18 @@ test_specific_env:
 production_specific_env:
     - { line: "DOMAIN_SUFFIX=", regexp: '^DOMAIN_SUFFIX', title: 'env: Remove domain suffix' }
 
+# the user that will run the environment - can be different than the user that is running Ansible deployment
 deploy_user: tech.admin
 deploy_group: technical
+
+# project specific - naming
 project_dir: /project
 systemd_service_name: "project"
 systemd_service_sleep: 30
 compose_env_name: ""
+use_virtualenv: yes
+
+# configure /etc/sudoers to forward ssh-agent properly?
 configure_sudoers: no
 
 # prefer .env-prod (if present) instead of .env-dist
@@ -18,21 +24,17 @@ prefer_env_prod_over_dist: yes
 # prevents from restarting whole environment when deploying the project over and over again
 avoid_whole_environment_restart: yes
 
-# change it to sg. "./make.sh" if you have a root-executed entrypoint for given group of users
-# do not use sudo here (avoid making sudo in sudo inception)
-make_executable: "./make.sh"
-
-#
-# Recovery from backup, on first deployment you may want to restore whole environment from backup
-# or in case of a failure. Generally this flag should be set manually per-deployment.
-#
-restore_from_backup_with_recovery_plan: no
-
 # this origin will be set only during deployment time
 #git_deploy_url: https://user:password@somehost/someuser/somerepo
 
 # without user and password, this form will stay on server
 #git_regular_deploy_url: https://somehost/someuser/somerepo
 
-# runtime variables
+
+
+# ========================================================================================
+# Runtime variables: Should be filled up optionally, on each deployment to adjust to needs
+# ========================================================================================
+
 harbor_deployment_profile: ""  # use with -e to set a profile eg. -e harbor_deployment_profile=gateway
+git_branch: "master"

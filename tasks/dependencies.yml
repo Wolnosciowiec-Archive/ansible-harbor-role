@@ -1,0 +1,36 @@
+#
+# Setup virtual environment if required
+#
+- block:
+    - name: Install required virtualenv package
+      become: yes
+      pip:
+          name: virtualenv
+
+    - name: Install python packages (only if requirements.txt present in repository)
+      become: yes
+      become_user: "{{ deploy_user|default('technical') }}"
+      pip:
+          requirements: "{{ project_dir }}/requirements.txt"
+          virtualenv: "{{ project_dir }}/.venv"
+
+    - name: Create virtual environment wrapper
+      become: yes
+      become_user: "{{ deploy_user|default('technical') }}"
+      template:
+          src: virtualenv/pyenv
+          dest: "{{ project_dir }}/.venv/bin/pyvenv"
+          mode: "0755"
+
+    - name: Activate virtual environment
+      set_fact:
+          ansible_python_interpreter: "{{ project_dir }}/.venv/bin/pyvenv"
+  when: use_virtualenv
+
+# without virtual environment
+- name: Install python packages (only if requirements.txt present in repository)
+  become: yes
+  become_user: "{{ deploy_user|default('technical') }}"
+  pip:
+      requirements: "{{ project_dir }}/requirements.txt"
+  when: not use_virtualenv

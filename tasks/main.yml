@@ -3,7 +3,7 @@
 - include: setup_env.yml
 - include: test_server_specific.yml
 - include: production_specific.yml
-- include: pre_setup.yml
+- include: dependencies.yml
 - block:
       - include: upgrade.yml
   always:

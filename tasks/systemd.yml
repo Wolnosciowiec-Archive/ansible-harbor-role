@@ -35,6 +35,6 @@
 - name: "Restart {{ systemd_service_name }}"
   become: yes
   systemd:
-      state: started
+      state: restarted
       name: "{{ systemd_service_name }}"
   when: avoid_whole_environment_restart|bool == False
