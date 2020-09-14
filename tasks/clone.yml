@@ -33,12 +33,12 @@
       recurse: yes
       state: directory
 
-- name: Copy until-compose-env-running script
+- name: Copy add-known-host-by-git-url script
   become: yes
   copy:
       src: usr/local/bin/add-known-host-by-git-url
       dest: /usr/local/bin/add-known-host-by-git-url
-      mode: "+x"
+      mode: "u+rwx,g+rx,o+rx"
 
 #
 # SSH Agent support
